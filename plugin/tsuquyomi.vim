@@ -70,6 +70,8 @@ let g:tsuquyomi_locale =
       \ get(g:, 'tsuquyomi_locale', 'en')
 let g:tsuquyomi_search_term_min_length =
       \ get(g:, 'tsuquyomi_search_term_min_length', 3)
+let g:tsuquyomi_use_quickfix_for_references =
+      \ get(g:, 'tsuquyomi_use_quickfix_for_references', 0)
 " Global options defintion. }}}
 
 " augroup tsuquyomi_global_command_group

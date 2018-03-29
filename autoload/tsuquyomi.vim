@@ -491,7 +491,7 @@ endfunction
 " #### Definition }}}
 
 " #### References {{{
-" Show reference on a location window.
+" Show reference on a quickfix/location window.
 function! tsuquyomi#getLocations(tsClientFunction, functionTitle)
   if len(s:checkOpenAndMessage([expand('%:p')])[1])
     return
@@ -515,7 +515,7 @@ function! tsuquyomi#getLocations(tsClientFunction, functionTitle)
 
   if len(l:references) != 0
     let l:location_list = []
-    " 2. Make a location list for `setloclist`
+    " 2. Make a location list for `setqflist`/`setloclist`
     for reference in l:references
       if has_key(reference, 'lineText')
         let l:location_info = {
@@ -534,9 +534,15 @@ function! tsuquyomi#getLocations(tsClientFunction, functionTitle)
       call add(l:location_list, l:location_info)
     endfor
     if len(l:location_list) > 0
-      call setloclist(0, l:location_list, 'r')
-      "3. Open location window.
-      lwindow
+      if g:tsuquyomi_use_quickfix_for_references != 0
+        call setqflist(l:location_list, 'r')
+        "3. Open quickfix window.
+        copen
+      else
+        call setloclist(0, l:location_list, 'r')
+        "3. Open location window.
+        lwindow
+      endif 
     endif
   else
     echom '[Tsuquyomi] '.a:functionTitle.': Not found...'
